@@ -25,86 +25,43 @@ async function run() {
     try {
         await client.connect();
         const taskDB = client.db("taskDB");
-        // const userDB = client.db("userDB");
         const taslCollection = taskDB.collection("taslCollection");
-        // console.log(taslCollection)
-        // const userCollection = userDB.collection("userCollection");
 
         // // Services
         app.post("/tasks", async (req, res) => {
             const taskData = req.body;
-            console.log(taskData)
             const result = await taslCollection.insertOne(taskData);
             res.send(result);
         });
 
         app.get("/tasks", async (req, res) => {
             const taskData = taslCollection.find();
-            console.log(taskData)
             const result = await taskData.toArray();
             res.send(result);
         });
 
-        // app.get("/services/:id", async (req, res) => {
+        // app.get("/tasks/:id", async (req, res) => {
         //     const id = req.params.id;
-        //     const result = await serviceCollection.findOne({ _id: new ObjectId(id) });
+        //     const result = await taslCollection.findOne({ _id: new ObjectId(id) });
         //     res.send(result);
         // });
 
-        // app.patch("/services/:id", verifyToken, async (req, res) => {
-        //     const id = req.params.id;
-        //     const updateService = req.body;
-        //     const result = await serviceCollection.updateOne(
-        //         { _id: new ObjectId(id) },
-        //         { $set: updateService }
-        //     );
-        //     res.send(result);
-        // });
+        app.patch("/tasks/:id", async (req, res) => {
+            const id = req.params.id;
+            const updateTask = req.body;
+            console.log(updateTask)
+            const result = await taslCollection.updateOne(
+                { _id: new ObjectId(id) },
+                { $set: updateTask }
+            );
+            res.send(result);
+        });
 
         app.delete("/tasks/:id", async (req, res) => {
             const id = req.params.id;
             const result = await taslCollection.deleteOne({ _id: new ObjectId(id) });
             res.send(result);
         });
-
-        // // Users
-        // app.post("/user", async (req, res) => {
-        //     const userData = req.body;
-        //     const token = createToken(userData);
-        //     const isUserExist = await userCollection.findOne({ email: userData?.email });
-        //     if (isUserExist?._id) {
-        //         return res.send({
-        //             status: "success",
-        //             message: "Login success",
-        //             token,
-        //         });
-        //     }
-        //     await userCollection.insertOne(userData);
-        //     return res.send({ token });
-        // });
-
-        // app.get("/user/get/:id", async (req, res) => {
-        //     const id = req.params.id;
-        //     const result = await userCollection.findOne({ _id: new ObjectId(id) });
-        //     res.send(result);
-        // });
-
-        // app.get("/user/:email", async (req, res) => {
-        //     const email = req.params.email;
-        //     const result = await userCollection.findOne({ email });
-        //     res.send(result);
-        // });
-
-        // app.patch("/user/:email", verifyToken, async (req, res) => {
-        //     const email = req.params.email;
-        //     const userData = req.body;
-        //     const result = await userCollection.updateOne(
-        //         { email },
-        //         { $set: userData },
-        //         { upsert: true }
-        //     );
-        //     res.send(result);
-        // });
 
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } finally {
