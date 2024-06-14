@@ -24,17 +24,19 @@ const client = new MongoClient(uri, {
 async function run() {
     try {
         await client.connect();
-        const serviceDB = client.db("serviceDB");
-        const userDB = client.db("userDB");
-        // const serviceCollection = serviceDB.collection("serviceCollection");
+        const taskDB = client.db("taskDB");
+        // const userDB = client.db("userDB");
+        const taslCollection = taskDB.collection("taslCollection");
+        console.log(taslCollection)
         // const userCollection = userDB.collection("userCollection");
 
         // // Services
-        // app.post("/services", verifyToken, async (req, res) => {
-        //     const servicesData = req.body;
-        //     const result = await serviceCollection.insertOne(servicesData);
-        //     res.send(result);
-        // });
+        app.post("/tasks", async (req, res) => {
+            const taskData = req.body;
+            console.log(taskData)
+            const result = await taslCollection.insertOne(taskData);
+            res.send(result);
+        });
 
         // app.get("/services", async (req, res) => {
         //     const servicesData = serviceCollection.find();
