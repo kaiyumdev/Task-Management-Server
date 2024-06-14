@@ -46,16 +46,16 @@ async function run() {
         //     res.send(result);
         // });
 
-        app.patch("/tasks/:id", async (req, res) => {
-            const id = req.params.id;
-            const updateTask = req.body;
-            console.log(updateTask)
-            const result = await taslCollection.updateOne(
-                { _id: new ObjectId(id) },
-                { $set: updateTask }
-            );
-            res.send(result);
-        });
+        // app.patch("/tasks/:id", async (req, res) => {
+        //     const id = req.params.id;
+        //     const updateTask = req.body;
+        //     console.log(updateTask)
+        //     const result = await taslCollection.updateOne(
+        //         { _id: new ObjectId(id) },
+        //         { $set: updateTask }
+        //     );
+        //     res.send(result);
+        // });
 
         app.delete("/tasks/:id", async (req, res) => {
             const id = req.params.id;
