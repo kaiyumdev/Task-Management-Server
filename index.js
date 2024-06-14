@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const cors = require("cors");
 
 const port = process.env.PORT || 3000;
@@ -61,11 +61,11 @@ async function run() {
         //     res.send(result);
         // });
 
-        // app.delete("/services/:id", verifyToken, async (req, res) => {
-        //     const id = req.params.id;
-        //     const result = await serviceCollection.deleteOne({ _id: new ObjectId(id) });
-        //     res.send(result);
-        // });
+        app.delete("/tasks/:id", async (req, res) => {
+            const id = req.params.id;
+            const result = await taslCollection.deleteOne({ _id: new ObjectId(id) });
+            res.send(result);
+        });
 
         // // Users
         // app.post("/user", async (req, res) => {
