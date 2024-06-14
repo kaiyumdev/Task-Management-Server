@@ -27,7 +27,7 @@ async function run() {
         const taskDB = client.db("taskDB");
         // const userDB = client.db("userDB");
         const taslCollection = taskDB.collection("taslCollection");
-        console.log(taslCollection)
+        // console.log(taslCollection)
         // const userCollection = userDB.collection("userCollection");
 
         // // Services
@@ -38,11 +38,12 @@ async function run() {
             res.send(result);
         });
 
-        // app.get("/services", async (req, res) => {
-        //     const servicesData = serviceCollection.find();
-        //     const result = await servicesData.toArray();
-        //     res.send(result);
-        // });
+        app.get("/tasks", async (req, res) => {
+            const taskData = taslCollection.find();
+            console.log(taskData)
+            const result = await taskData.toArray();
+            res.send(result);
+        });
 
         // app.get("/services/:id", async (req, res) => {
         //     const id = req.params.id;
@@ -113,7 +114,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get('/', (req, res) => {
-    res.send('This is Medical-Corner Server by Mine Seriously!');
+    res.send('This is Task-Management Server by Mine Seriously!');
 });
 
 app.listen(port, () => {
